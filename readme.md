@@ -17,11 +17,13 @@
       
 <p float="center">
     <img src="_pics/Sloan_sky_survey.png" width="400"/> 
+    <figcaption>Fig.1 Sloan sky survey</figcaption>
+
     <img src="_pics/LSS_example.png" width="400" />
+    <figcaption>Fig. 2LSS simulation </figcaption>
 </p>
 <figure>
-    <figcaption>Fig.1 Sloan sky survey</figcaption>
-        <figcaption>Fig. 2LSS simulation </figcaption>
+    
 
 </figure>
 
