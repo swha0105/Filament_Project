@@ -15,9 +15,9 @@
     💠 **Wall**는 3차원상에서 평면구조이며 온도와 밀도가 상대적으로 filament 보다 낮다
     
       
-<p float="left">
-    <img src="_pics/Sloan_sky_survey.png" width="350"/> 
-    <img src="_pics/LSS_example.png" width="350" />
+<p float="center">
+    <img src="_pics/Sloan_sky_survey.png" width="400"/> 
+    <img src="_pics/LSS_example.png" width="400" />
 </p>
 <figure>
     <figcaption>Fig.1 Sloan sky survey</figcaption>
