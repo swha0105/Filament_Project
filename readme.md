@@ -16,12 +16,12 @@
     
       
 <figure>
-    <img src="_pics/Sloan_sky_survey.png" width="350"/>
+    <img src="_pics/Sloan_sky_survey.png" width="350"  style="float:left;"/>
     <figcaption>Sloan sky survey</figcaption>
 </figure>
 
 <figure>
-    <img src="_pics/LSS_example.png" width="350"/>
+    <img src="_pics/LSS_example.png" width="350"  style="float:right;"/>
     <figcaption>Sloan sky survey</figcaption>
 </figure>
 
