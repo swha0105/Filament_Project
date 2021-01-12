@@ -2,7 +2,7 @@
 
 ## Statistical study on morphologies of Leo filaments via Deep learning method with transductive labels
 
-- **Intro & Problem** : ****거대우주구조 시뮬레이션에서 Cluster, Filament, Wall Classification
+- **Intro & Problem** : 거대우주구조 시뮬레이션에서 Cluster, Filament, Wall Classification
 
     우주의 질량은 75%가 암흑 에너지, 20%가 암흑 물질, 그리고 5%가 바리온 이라 불리는 우리가 알고있는 모든 물질들의 총칭이다. 그 중, 5% 바리온 분포들을 관측하였을때, (Fig 1) 균등하게 분포있는게 아니라 물질들이 밀집되어있는 부분, 비어있는 부분이 확연히 들어난다 ([Pancake Theory](https://en.wikipedia.org/wiki/Zeldovich_pancake)).  물질들은 크게 **Galaxy of Clusters, Galaxy of Filaments, Wall, Void** 구조로 형성되어있다. 
 
@@ -11,9 +11,10 @@
     💠 **Cluster**는 구형으로, 다른 2개의 구조에 비해 온도와 밀도가 월등히 높다.
    
     💠 **Filament**는 3차원상에서 원통형이며 온도와 밀도가 상대적으로 wall 보다 높다
+    
     💠 **Wall**는 3차원상에서 평면구조이며 온도와 밀도가 상대적으로 filament 보다 낮다
 
-![_pics/Untitled.png](Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/Untitled.png)
+![_pics/Sloan_sky_survey.png](Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/Untitled.png)
 
 Fig 1. Large scale structure of the universe 
 Ref: Sloan Digital Sky Survey
