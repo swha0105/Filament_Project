@@ -14,7 +14,7 @@
     
     💠 **Wall**는 3차원상에서 평면구조이며 온도와 밀도가 상대적으로 filament 보다 낮다
 
-![_pics/Sloan_sky_survey.png](Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/Untitled.png)
+![Sloan_sky_survey](./_pics/Sloan_sky_survey.png)
 
 Fig 1. Large scale structure of the universe 
 Ref: Sloan Digital Sky Survey
