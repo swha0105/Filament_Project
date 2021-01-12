@@ -13,8 +13,13 @@
     💠 **Filament**는 3차원상에서 원통형이며 온도와 밀도가 상대적으로 wall 보다 높다
     
     💠 **Wall**는 3차원상에서 평면구조이며 온도와 밀도가 상대적으로 filament 보다 낮다
-
-<img src="_pics/Sloan_sky_survey.png" width="350"/>
+    
+      
+      <img src="images/img-02.png">
+<figure>
+    <img src="_pics/Sloan_sky_survey.png" width="350"/>
+    <figcaption>Sloan sky survey</figcaption>
+</figure>
 Fig 1. Large scale structure of the universe 
 Ref: Sloan Digital Sky Survey
 
