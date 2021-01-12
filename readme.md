@@ -5,16 +5,27 @@
 ## **Intro & Problem** : 
 **거대우주구조 시뮬레이션에서 Cluster, Filament, Wall Classification**
 
-우주의 질량은 75%가 암흑 에너지, 20%가 암흑 물질, 그리고 5%가 바리온 이라 불리는 우리가 알고있는 모든 물질들의 총칭이다. 그 중, 5% 바리온 분포들을 관측하였을때, (Fig 1) 균등하게 분포있는게 아니라 물질들이 밀집되어있는 부분, 비어있는 부분이 확연히 들어난다 ([Pancake Theory](https://en.wikipedia.org/wiki/Zeldovich_pancake)).  물질들은 크게 **Galaxy of Clusters, Galaxy of Filaments, Wall, Void** 구조로 형성되어있다. 
+현재 인류가 관측 할 수 있는 가장 큰 우주를 보았을 때, 물질들이 균등하게 분포해있지 않고 특정한 구조를 가지며 분포 해있다. 전체 우주의 물질분포와 그 구조를 `거대우주구조` 라고 하며 이 거대우주구조에는 `Galaxy of Clusters`, `Galaxy of Filaments`, `Wall`, `Void` 의 구조가 존재한다.
+([Pancake Theory](https://en.wikipedia.org/wiki/Zeldovich_pancake))
 
-이중 **Galaxy of Clusters**는 나머지 구조들과는 다른 확연한 물리적 특성 (온도, 밀도, Xray)을 가지지만 **Filament, Wall** 의 물리적 특성 차이는 크게 다르지않다. 따라서, **Filament**와 **Wall**을 구분 하기위해선 물리적 특성 뿐만 아닌, 구조가 가지는 전반적인 기하학적 정보도 함께 정의해서 사용해야 적절한 결과가 도출 될 것이다.
 
-💠 **Cluster**는 구형으로, 다른 2개의 구조에 비해 온도와 밀도가 월등히 높다.
+💠 `Galaxy of Clusters`는 구형으로, 다른 구조들에 비해 온도와 밀도가 월등히 높다.
 
-💠 **Filament**는 3차원상에서 원통형이며 온도와 밀도가 상대적으로 wall 보다 높다
+💠 `Galaxy of Filaments`는 3차원상에서 **원통형**이며 온도와 밀도가 상대적으로 wall 보다 높다
 
-💠 **Wall**는 3차원상에서 평면구조이며 온도와 밀도가 상대적으로 filament 보다 낮다
+💠 `Wall`는 3차원상에서 **평면구조**이며 온도와 밀도가 상대적으로 filament 보다 낮다
 
+💠 `Void`는 매우 낮은 밀도와 온도를 가지고 있다.
+
+
+이 중 `Galaxy of Filament` (이하 `Filament`)는 물질분포의 ~%의 부피를 차지하지만 전체 물질의 50%의 질량을 가지고 있어 흥미로운 물리현상들이 일어나는 곳이다. 이 `Filament`는 3차원 공간상에서 복잡한 원통형 구조를 띄고 있으며 이 원통을 따라 수많은 물리현상들이 (ex: cosmic ray acceleration) 일어난다. 따라서 거대우주공간에서 일어나는 흥미로운 물리현상을 알아내기 위해 이 `Filament`를 시뮬레이션 데이터상에서 구분하고 식별하는 일은 필수적이라 할 수 있다.
+
+하지만 이 `Filament`는 다른 구조 특히 `Wall`과 구분하기 힘든 성질을 가지고 있다. 
+`Filament` 와 `Wall`은 `Galaxy of Clusters` (이하 `Cluster`) 의 주변에 분포하고 물리량 (밀도, 온도, Xray)이 오차범위 안에서 비슷한 값을 가진다.  
+
+**따라서 이 둘을 구분하러면 물리적 특성과 함께 구조의 기하학적 정보도 함께 사용되어야 한다.**  
+
+이를 위해 `Deep Learning`의 `3D-Unet` 접근과  `Machine Learning` 의  **`Label spreading`** 을 사용하였다. 모든 코드들은 **Python** 으로 구성했으며 3차원 데이터의 후처리코드는 **MATLAB** 의 3D Volumetric Image Processing 모듈을 사용하였다.
       
 <p float="center">
     <img src="_pics/Sloan_sky_survey.png" width="400"/> 
@@ -25,10 +36,16 @@
 Fig 2. Cluster, Filament, Wall, Void 
 Ref: [Paper (Link)](https://www.semanticscholar.org/paper/A-machine-learning-approach-to-galaxy-LSS-I.-on-Hui-Aragon-Calvo/3376717081ed443ca09c689a261717a3a3675511)
 
-
 </br>
 
+## **Data:** 
+[논문](https://ui.adsabs.harvard.edu/abs/1993ApJ...414....1R/abstract) 에 언급된 코드를 (Fortran) 이용해 계산된 데이터를 이용하였다.  
+Size: 32GB x 8   
+Format: Binary  
 
+
+
+V2 접근
 ## **Previous Research & Limitation:**
 **한정적인 수학적 정보만 사용**
 
@@ -36,7 +53,9 @@ Ref: [Paper (Link)](https://www.semanticscholar.org/paper/A-machine-learning-app
 
 1. [Hessian Matrix](https://en.wikipedia.org/wiki/Hessian_matrix) (논문 [참조 1](https://arxiv.org/abs/1401.7866), [참조 2](https://arxiv.org/abs/1209.2043)) 를 계산한 뒤, 그것에 대한 Eigenvalue값을 조합하여 특정 포인트의 Contextual한 기하학적 정보를 계산한다. (예를들어, Filament와 같은 원기둥안에 속해 있는 포인트에서는 Eq. 1의 Filament 값이 상대적으로 높게 나올것이다.)  
 
-    ![Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/Untitled%201.png](Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/Untitled%201.png)
+<p float="center">
+    <img src="_pics/signature_equation.png" width="400"/> 
+</p>
 
     Eq 1. Shape Strength. for each lambda means Eigenvalue of Hessian Matrix  
     Ref: [Paper (Link)](https://arxiv.org/abs/1209.2043) 
@@ -48,13 +67,6 @@ Ref: [Paper (Link)](https://www.semanticscholar.org/paper/A-machine-learning-app
 **따라서, 특정한 Criteria으로 나누기 힘든 기준들을 머신러닝/딥러닝을 이용하여 물리적/기하학기적 정보를 모두 포함하여 Filament와 Wall을 구분하는 방향으로 연구를 진행하였다.**
 
 </br>
-
-## **Data:** 
- Big data of Simulated Large Scale Structure of the Universe 
-
-[논문](https://ui.adsabs.harvard.edu/abs/1993ApJ...414....1R/abstract) 에 언급된 코드를 (Fortran) 사용하여 여기에서 나온 데이터를 이용하였다.
-
-거대우주구조 시뮬레이션 데이터는 하나당 약 32GB이며 총 8개를 사용하였다. 기본 포맷은 Binary 데이터이다.
 
 </br>
 
@@ -201,4 +213,3 @@ reference
 [6] [https://arxiv.org/abs/1401.7866](https://arxiv.org/abs/1401.7866)
 
 -
-
