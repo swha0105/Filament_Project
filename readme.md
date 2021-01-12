@@ -15,13 +15,16 @@
     💠 **Wall**는 3차원상에서 평면구조이며 온도와 밀도가 상대적으로 filament 보다 낮다
     
       
-      <img src="images/img-02.png">
 <figure>
     <img src="_pics/Sloan_sky_survey.png" width="350"/>
     <figcaption>Sloan sky survey</figcaption>
 </figure>
-Fig 1. Large scale structure of the universe 
-Ref: Sloan Digital Sky Survey
+
+<figure>
+    <img src="_pics/LSS_example.png" width="350"/>
+    <figcaption>Sloan sky survey</figcaption>
+</figure>
+
 
 Fig 2. Cluster, Filament, Wall, Void 
 Ref: [Paper (Link)](https://www.semanticscholar.org/paper/A-machine-learning-approach-to-galaxy-LSS-I.-on-Hui-Aragon-Calvo/3376717081ed443ca09c689a261717a3a3675511)
