@@ -16,8 +16,7 @@
     
       
 <figure>
-    <img src="_pics/Sloan_sky_survey.png" width="350"/>
-    <img src="_pics/LSS_example.png" width="350" />
+    <img src="_pics/Sloan_sky_survey.png" width="350"/>  <img src="_pics/LSS_example.png" width="350" />
 </figure>
 
 <figure>
