@@ -9,10 +9,11 @@
     이중 **Galaxy of Clusters**는 나머지 구조들과는 다른 확연한 물리적 특성 (온도, 밀도, Xray)을 가지지만 **Filament, Wall** 의 물리적 특성 차이는 크게 다르지않다. 따라서, **Filament**와 **Wall**을 구분 하기위해선 물리적 특성 뿐만 아닌, 구조가 가지는 전반적인 기하학적 정보도 함께 정의해서 사용해야 적절한 결과가 도출 될 것이다.
 
     💠 **Cluster**는 구형으로, 다른 2개의 구조에 비해 온도와 밀도가 월등히 높다.
+   
     💠 **Filament**는 3차원상에서 원통형이며 온도와 밀도가 상대적으로 wall 보다 높다
     💠 **Wall**는 3차원상에서 평면구조이며 온도와 밀도가 상대적으로 filament 보다 낮다
 
-![Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/Untitled.png](Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/Untitled.png)
+![_pics/Untitled.png](Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/Untitled.png)
 
 Fig 1. Large scale structure of the universe 
 Ref: Sloan Digital Sky Survey
