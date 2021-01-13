@@ -39,36 +39,44 @@ Ref: [Paper (Link)](https://www.semanticscholar.org/paper/A-machine-learning-app
 </br>
 
 ## **Data:** 
-[논문](https://ui.adsabs.harvard.edu/abs/1993ApJ...414....1R/abstract) 에 언급된 코드를 (Fortran) 이용해 계산된 데이터를 이용하였다.  
+본 [논문](https://ui.adsabs.harvard.edu/abs/1993ApJ...414....1R/abstract) 에 언급된 코드를 (Fortran) 이용해 계산된 데이터를 이용하였다.  
 Size: 32GB x 8   
 Format: Binary  
 
 
 
-V2 접근
 ## **Previous Research & Limitation:**
-**한정적인 수학적 정보만 사용**
 
-기존의 연구들은,  물리학적 정보를 사용하지 않고 기하학적 정보들만으로 **Filament** 와 **Wall** 을 구분하는 시도를 하였다.
+<details>
+<summary> Click for Details </summary>
+기존의 연구들은,  물리학적 정보를 사용하지 않고 기하학적 정보들만으로 `Filament` 와 `Wall` 을 구분하는 시도를 하였다. 
+</br>
+</br>
 
-1. [Hessian Matrix](https://en.wikipedia.org/wiki/Hessian_matrix) (논문 [참조 1](https://arxiv.org/abs/1401.7866), [참조 2](https://arxiv.org/abs/1209.2043)) 를 계산한 뒤, 그것에 대한 Eigenvalue값을 조합하여 특정 포인트의 Contextual한 기하학적 정보를 계산한다. (예를들어, Filament와 같은 원기둥안에 속해 있는 포인트에서는 Eq. 1의 Filament 값이 상대적으로 높게 나올것이다.)  
 
-<p float="center">
-    <img src="_pics/signature_equation.png" width="400"/> 
-</p>
+1.  3차원 밀도공간에서 [Hessian Matrix](https://en.wikipedia.org/wiki/Hessian_matrix) 의 Eigenvalue를 계산해 **Shape strength** 를 구성하는 방법이 있다. 각각의 **Shape Stength** 는 특정 포인트에서의 밀도의 구조에 대해 **구, 원기둥, 평면** 정도 를 나타낸다. **Shape Strength**를 이용해 `Filament` 와 `Wall`의 후보군을 찾아낸 뒤, 알려진 물리량과 함께 `Filament`를 판단한다 ([논문 1](https://arxiv.org/abs/1401.7866), [논문 2](https://arxiv.org/abs/1209.2043))
+    <p float="center">
+        <img src="_pics/signature_equation.png" width="400"/> 
+    </p>
+    Eq 1. Shape Strength. for each lambda means Eigenvalue of Hessian Matrix 
+</br>
 
-    Eq 1. Shape Strength. for each lambda means Eigenvalue of Hessian Matrix  
-    Ref: [Paper (Link)](https://arxiv.org/abs/1209.2043) 
+2. 위상수학에서 사용되는 [Morse Theory](https://en.wikipedia.org/wiki/Morse_theory)를 이용하여 3차원 공간의 밀도분포에서 가장 안정화된 Saddle point들을 찾아 이를 잇는 선을 찾아내여 `Filament` 를 정의하는 것이다.
+[논문 1](https://academic.oup.com/mnras/article/414/1/350/1090746?searchresult=1)
+</br>
+</br>
 
-2. 또 다른 접근으론 ([참조](https://academic.oup.com/mnras/article/414/1/350/1090746?searchresult=1)),  위상수학에서 사용되는 [Morse Theory](https://en.wikipedia.org/wiki/Morse_theory)를 통해 정의한다. 3차원 공간상에서 분포하는 물질들을 파악하여, 특정부분으로 나누었을때 가장 안정화되는 포인트를 찾아 공간을 decomposition하는 방법이다. 
+기존 연구에서는 이런 방법등으로 기하학적 정보를 사용하였지만 물리적 특성 (온도,밀도,xray) 등을 후처리로 넣어주는 한계가 있었다. 특히, 이러한 방법의 한계는 데이터 **Specific**하게 맞춰진다는 점이고 일반적인 데이터에 사용을 하러면 많은 Fine tuning이나 전문가가 개입하여야 했었다. 
+</details>
 
-이러한 방법들이 기존 연구에 사용되었지만 물리적 특성 (온도, 밀도 등)을 사용하지 못했다.  대체적으로 **Filament**가 온도와 밀도가 **Wall**보다 높다고 알려져 있었지만 이러한 물리적 특성을 사용하기에 예외적인 케이스와 상황에 따라 다를때가 많아 기존의 물리학에서 사용되는 방법론으로는 사용하기 어려움이 있었다.
 
-**따라서, 특정한 Criteria으로 나누기 힘든 기준들을 머신러닝/딥러닝을 이용하여 물리적/기하학기적 정보를 모두 포함하여 Filament와 Wall을 구분하는 방향으로 연구를 진행하였다.**
+
 
 </br>
 
 </br>
+공통적인 처리
+
 
 ## **Machine Learning Approach:** 
 Transductive label를 사용한 Label Spreading 기법 사용
