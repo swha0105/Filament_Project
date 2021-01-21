@@ -1,205 +1,184 @@
-# **Filament Project**
-### **Project name**:  Statistical study on morphologies of Leo filaments via Deep learning method with transductive labels  
-</br>
+# **Filament Identification via Machine Learning**
+이건 제목으로 
 
+<br/>
+
+***
+
+## **Project Info**
+### Statistical study on morphologies of Leo filaments via Label spreading 
+- **기간:** 19.09 ~ 21.01
+- **주관 및 관련 기관:**  CHEA(Center for High Energy Astrophysics) ,선도연구센터
+- **사용 언어** : Python, MATLAB
+- **사용 기술** :
+    - Label Spreading (Machine learning),
+    - DFS(Depth-First Search), 
+    - 3차원 이미지 처리(Gaussian pyramid, Skeletonization)
+    - gpu 가속
+<br/>
+<br/>
+
+***
 ## **Intro & Problem** : 
-**거대우주구조 시뮬레이션에서 Cluster, Filament, Wall Classification**
+<!-- **거대우주구조 시뮬레이션에서 Cluster, Filament, Wall Classification** -->
 
-현재 인류가 관측 할 수 있는 가장 큰 우주를 보았을 때, 물질들이 균등하게 분포해있지 않고 특정한 구조를 가지며 분포 해있다. 전체 우주의 물질분포와 그 구조를 `거대우주구조` 라고 하며 이 거대우주구조에는 `Galaxy of Clusters`, `Galaxy of Filaments`, `Wall`, `Void` 의 구조가 존재한다.
-([Pancake Theory](https://en.wikipedia.org/wiki/Zeldovich_pancake))
-
-
-💠 `Galaxy of Clusters`는 구형으로, 다른 구조들에 비해 온도와 밀도가 월등히 높다.
-
-💠 `Galaxy of Filaments`는 3차원상에서 **원통형**이며 온도와 밀도가 상대적으로 wall 보다 높다
-
-💠 `Wall`는 3차원상에서 **평면구조**이며 온도와 밀도가 상대적으로 filament 보다 낮다
-
-💠 `Void`는 매우 낮은 밀도와 온도를 가지고 있다.
+현재 인류가 관측 할 수 있는 가장 큰 우주를 보았을 때, 우주에 존재하는 물질 들은 균등하게 분포해있지 않고 특정한 구조를 가지며 분포 해있다. 전체 우주의 물질분포와 그 구조를 `거대우주구조` 라고 하며 이 거대우주구조에는 `Galaxy of Clusters`, `Galaxy of Filaments`, `Wall`, `Void` 의 구조가 존재한다.
+<!-- ([Pancake Theory](https://en.wikipedia.org/wiki/Zeldovich_pancake)) -->
+각 구조들은 다음과 같은 성질을 가진다.  
 
 
-이 중 `Galaxy of Filament` (이하 `Filament`)는 물질분포의 ~%의 부피를 차지하지만 전체 물질의 50%의 질량을 가지고 있어 흥미로운 물리현상들이 일어나는 곳이다. 이 `Filament`는 3차원 공간상에서 복잡한 원통형 구조를 띄고 있으며 이 원통을 따라 수많은 물리현상들이 (ex: cosmic ray acceleration) 일어난다. 따라서 거대우주공간에서 일어나는 흥미로운 물리현상을 알아내기 위해 이 `Filament`를 시뮬레이션 데이터상에서 구분하고 식별하는 일은 필수적이라 할 수 있다.
+💠 `Galaxy of Clusters` 는 구형으로, 다른 구조들에 비해 온도와 밀도가 월등히 높다.
 
-하지만 이 `Filament`는 다른 구조 특히 `Wall`과 구분하기 힘든 성질을 가지고 있다. 
-`Filament` 와 `Wall`은 `Galaxy of Clusters` (이하 `Cluster`) 의 주변에 분포하고 물리량 (밀도, 온도, Xray)이 오차범위 안에서 비슷한 값을 가진다.  
+💠 **`Galaxy of Filaments`** 는 3차원상에서 **원통형**이며 온도와 밀도가 상대적으로 Wall 보다 높다
 
-**따라서 이 둘을 구분하러면 물리적 특성과 함께 구조의 기하학적 정보도 함께 사용되어야 한다.**  
+💠 **`Wall`** 는 3차원상에서 **평면구조**이며 온도와 밀도가 상대적으로 Filament 보다 낮다
 
-이를 위해 `Deep Learning`의 `3D-Unet` 접근과  `Machine Learning` 의  **`Label spreading`** 을 사용하였다. 모든 코드들은 **Python** 으로 구성했으며 3차원 데이터의 후처리코드는 **MATLAB** 의 3D Volumetric Image Processing 모듈을 사용하였다.
-      
+💠 `Void` 는 매우 낮은 밀도와 온도를 가지고 있다.
+
+
+이 중 **`Galaxy of Filament`** (이하 `Filament`)는 우주 전체 물질 질량의 50%를 차지하지만 부피는 6%를 차지하는 구조로서 우주의 물질들이 굉장히 밀집되어 있어 흥미로운 물리현상들이 많이 일어나는 곳이다. [참조 논문](https://academic.oup.com/mnras/article/441/4/2923/1213214)
+
+`Filament`는 3차원 공간상에서 복잡한 원통형 구조를 띄고 있으며 이 원통을 따라 수많은 물리현상들이 (ex: cosmic ray acceleration) 일어난다. 따라서 거대우주공간에서 일어나는 흥미로운 물리현상을 알아내기 위해 이 `Filament`를 시뮬레이션 데이터상에서 구분하고 식별하는 일은 필수적이라 할 수 있다.
+하지만 이 `Filament`는 다른 구조 특히, `Wall`과 구분하기 힘든 성질을 가지고 있다.
+
+`Filament` 와 `Wall`은 `Cluster` 주변에 분포하고 전체적인 구조와 물리량(밀도, 온도, Xray)이 오차범위 안에서 비슷한 값을 가진다. 전문가들은 이 둘을 구분하기 위해 **물리량과 함께 3차원 기하학적 정보를 모두 고려하여** 종합적인 판단을 내린다. 
+
+이러한 접근을 모방하기 위해 **Deep Learning**의 **3D-Unet** 과 **Machine Learning** 의  **Label spreading** 을 사용하였다.  또한 실제 우주의 관측데이터가 부족하고 불완전함으로 우주 구조를 묘사하는 시뮬레이션 데이터를 통해 구조를 분석하고 통계량을 계산해 실제 관측데이터와 비교하는 접근을 하였다. 
+
+이를 통해 우리는 특히 `Filament`의 **`Curvature`** 를 계산을 하였다. 실제 관측데이터에서는 Curvature가 큰 Highly curved Filament가 많이 나오지만 시뮬레이션 데이터 상 아직까지 보고 된 바가 없음으로 ML을 통한 Filament Identification이 모든 데이터에 성공적으로 적용할 수 있다면 무수히 많은 Filament들의 통계값을 통해 Highly curved Filament의 존재 유무와 존재 확률을 통계적으로 접근 할 수 있기 때문에 Identification 후 Curvature 계산에 집중하였다. 
+
+모든 코드들은 **Python** 으로 구성했으며 3차원 데이터의 후처리 및 시각화는 **MATLAB** 의 3D Volumetric Image Processing 모듈을 사용하였다.
+
+
+<br/>
+
 <p float="center">
     <img src="_pics/Sloan_sky_survey.png" width="400"/> 
     <img src="_pics/LSS_example.png" width="400" />
 </p>
 
+Ref: Sloan sky survey(left), [Paper link](https://arxiv.org/pdf/1803.11156.pdf)(right)
 
-Fig 2. Cluster, Filament, Wall, Void 
-Ref: [Paper (Link)](https://www.semanticscholar.org/paper/A-machine-learning-approach-to-galaxy-LSS-I.-on-Hui-Aragon-Calvo/3376717081ed443ca09c689a261717a3a3675511)
+<br/>
+<br/>
 
-</br>
-
-## **Data:** 
+***
+## **Data:**
 본 [논문](https://ui.adsabs.harvard.edu/abs/1993ApJ...414....1R/abstract) 에 언급된 코드를 (Fortran) 이용해 계산된 데이터를 이용하였다.  
 Size: 32GB x 8   
-Format: Binary  
+Format: Binary (3차원)
 
+<br/>
+<br/>
 
-
+***
 ## **Previous Research & Limitation:**
 
-<details>
-<summary> Click for Details </summary>
 기존의 연구들은,  물리학적 정보를 사용하지 않고 기하학적 정보들만으로 `Filament` 와 `Wall` 을 구분하는 시도를 하였다. 
-</br>
-</br>
 
-
-1.  3차원 밀도공간에서 [Hessian Matrix](https://en.wikipedia.org/wiki/Hessian_matrix) 의 Eigenvalue를 계산해 **Shape strength** 를 구성하는 방법이 있다. 각각의 **Shape Stength** 는 특정 포인트에서의 밀도의 구조에 대해 **구, 원기둥, 평면** 정도 를 나타낸다. **Shape Strength**를 이용해 `Filament` 와 `Wall`의 후보군을 찾아낸 뒤, 알려진 물리량과 함께 `Filament`를 판단한다 ([논문 1](https://arxiv.org/abs/1401.7866), [논문 2](https://arxiv.org/abs/1209.2043))
+1.  3차원 밀도공간에서 [Hessian Matrix](https://en.wikipedia.org/wiki/Hessian_matrix) 의 Eigenvalue를 계산해 **Shape strength** 를 구성하는 방법이 있다. 각각의 **Shape Stength** 는 특정 포인트에서의 주변 밀도의 구조를 고려해 **구, 원기둥, 평면** 정도 를 나타낸다. **Shape Strength**를 이용해 `Filament` 와 `Wall`의 후보군을 찾아낸 뒤, 알려진 물리량과 함께 `Filament`를 판단한다 ([논문 1](https://arxiv.org/abs/1401.7866), [논문 2](https://arxiv.org/abs/1209.2043))
     <p float="center">
         <img src="_pics/signature_equation.png" width="400"/> 
     </p>
     Eq 1. Shape Strength. for each lambda means Eigenvalue of Hessian Matrix 
-</br>
+<br/>
 
-2. 위상수학에서 사용되는 [Morse Theory](https://en.wikipedia.org/wiki/Morse_theory)를 이용하여 3차원 공간의 밀도분포에서 가장 안정화된 Saddle point들을 찾아 이를 잇는 선을 찾아내여 `Filament` 를 정의하는 것이다.
+2. 위상수학에서 사용되는 [Morse Theory](https://en.wikipedia.org/wiki/Morse_theory)를 이용하여 3차원 공간의 밀도분포에서 가장 안정화된 Saddle point들을 찾아 이를 잇는 선을 찾아내여 `Filament` 를 정의하는 것이다. 오픈소스 코드로 배포가 되어있으나 현재 우리가 사용하는 데이터 형태와 호환이 불가능하다.
 [논문 1](https://academic.oup.com/mnras/article/414/1/350/1090746?searchresult=1)
-</br>
-</br>
+<br/>
+<br/>
 
-기존 연구에서는 이런 방법등으로 기하학적 정보를 사용하였지만 물리적 특성 (온도,밀도,xray) 등을 후처리로 넣어주는 한계가 있었다. 특히, 이러한 방법의 한계는 데이터 **Specific**하게 맞춰진다는 점이고 일반적인 데이터에 사용을 하러면 많은 Fine tuning이나 전문가가 개입하여야 했었다. 
-</details>
+기존 연구방법에서는 위의 방법을 이용하여 기하학적 정보를 사용하였다. 하지만 기하학적 정보와 데이터에 존재하는 물리적 정보 (온도,밀도,xray)를 동시에 사용할 수 없고 기하학적 정보 처리 뒤 후 처리로 처리해야하는 번거로움이 있었다. 또한 이 방법의 가장 큰 한계는 Filament와 Wall에 대한 정량적인 Criteria가 없어 전문가가 데이터 마다 기준을 세우고 분류를 해야하는 번거로움이 존재하였다. 
 
-
-
-
-</br>
-
-</br>
-공통적인 처리
+**전문가의 개입 없이, 데이터에 의존성없이 정량적인 Criteria를 만들어 데이터에 대한 Bias를 없애기 ML/DL 접근을 시도 하였다**
 
 
-## **Machine Learning Approach:** 
-Transductive label를 사용한 Label Spreading 기법 사용
-- Method:
+<br/>
+<br/>
 
-    1. **Data Preparation** :  
-    Cluster 주변에 특정 크기로 데이터를 Crop한 후,  [Gaussian Pyramid](https://en.wikipedia.org/wiki/Pyramid_(image_processing))방법으로 Smoothing을 한다. (Fig 3, 4)   -  [Code Link](https://github.com/swha0105/Private/blob/master/Research/Filaments/cluster_box_gen.py), [Code Link2](https://github.com/swha0105/Private/blob/master/Research/Filaments/retired_v4/pyramid.py)
+***
 
-    (**Cluster**주변에 **Filament**와 **Wall** 이 존재 한다고 알려져있다).
+## **Approach** : 
+  
+1. **Gaussian Pyramid를 통한 데이터 압축**  -> code 링크   
+`Filament` 와 `Wall`은 `Cluster`주변에 존재하기 때문에 데이터를 `Cluster` 주변 40~45Mpc/h 의 크기로 Crop하였다.  Crop을 한 데이터들도 크기가 250~300Mb 하기 때문에 ML/DL에 사용하기 적합하지 않았다. 따라서 Gaussian Pyramid 알고리즘을 2번 적용해 데이터를 압축하였다. 이 과정에서 기하학적 정보가 손실 되지 않았는지 체크하였고 아래 그림과 같이 확인 하였다
+<br/><br/>
+![Gaussian example](_pics/Cluster_dens.png)
+가우시안 피라미드 설명 한거 링크..
 
-    ![Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/Screenshot_from_2020-09-16_13-44-56.png](Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/Screenshot_from_2020-09-16_13-44-56.png)
+<br/>
 
-    2. **Data Processing & Label assign**: 
 
-    1에서 준비 된 데이터에 온도, 밀도, Xray, 그리고 **Shape strength** 을 이용하여 4차원 데이터 공간을 만든다. - [Code Link](https://github.com/swha0105/Private/blob/master/Research/Filaments/gpu_signature.py) (Gpu 가속)
+2. **GPU 병렬화를 통한 Signature 및 Shape strength계산** -> code 링크  
+기존 연구방법을 참고하여 기하학적 정보를 **Shape Signature**를 계산하여 사용하기로 하였다. 
+**Shape Signature**는 밀도 데이터의 **Hessian Matrix**를 구성하여 **Eigenvalue**를 계산하고 [논문](https://arxiv.org/abs/1401.7866)에 나온대로 적절히 조합하여 **Shape Strength**을 계산한다.  
+이는 주변의 밀도분포를 고려하여 특정 포인트가 어떤 형태를 띄고 있는지 숫자로 나타내준다. 이 과정은 매우 큰 계산자원을 필요로 하기에 **GPU를 이용한 가속화**를 하여 CPU로 처리했을때에 비해 약 10~100배 정도 빠른속도를 구현하였다. 
+<br/>
+![Signature visualization](_pics/signature_visual.JPG)
+<br/>
+위의의의 그림은 왼쪽 위부터 시계방향으로 `Density`, `Filament signature`, `Wall signature`, `Cluster signature`를 나타낸다. 
 
-    그 후, 물리적으로 식별이 가능한 **Cluster**와 **Void**를 Label로 생성 한 뒤, 나머지 부분들을 **Filament**와 **Wall**의 집합으로 생성한다. 
+<br/>
 
-    4차원 데이터 공간상에서 **Filament**는 **Cluster**와, **Wall**은 **Void**와 상대적으로 가까울 것으로 추측된다. 따라서 4차원 공간상에서 거리를 계산하는 Label Spreading을 사용하여 각 Voxel에 대해 **Filament**와 **Wall**에 대한 추론을 하였다.
+ 
+3. **Label Spreading을 통한 Filament 식별** -> code 링크  
+Label spreading에 대한 자세한 설명은 여기로.. (링크)  
+**Label spreading**은 개수가 적지만 확실한 Label를 통해 Unlabeled 데이터에 Label을 지정 알고리즘으로 **Semi-supervised Learning** 중 하나 이다.    
+거대우주구조 4가지 구조중 `Cluster`와 `Void`는 물리량으로 정확히 정의가 된다. 
+또한, `Filament`는 `Cluster`와, `Wall`은 `Void`와 상대적인 물리량 및 기하학적으로 비슷한 특성을 가진다.   
+이를 이용해 `Cluster`와 `Void`를 X-ray 및 온도를 이용하여여 정확히 정의 한 뒤 이를 **Label**로 가정한다. Label의 **기하학적 정보와 물리량들**을 이용해 Unlabeled 데이터 안에 존재하는`Filament`와 `Wall`에 대한 **Classification**을 한다.<br/>
+![Gaussian example](_pics/label_spreading_example.JPG)
+<br/>
+왼쪽 그림은 밀도, 오른쪽 그림은 Label spreading이후 `Filament`라 Classification 된 부분을 의미한다. 
+<br/>
 
-    -  [Code Link](https://github.com/swha0105/Private/blob/master/Research/Filaments/label_spreading_v2.py)
 
-    3. **Do Label spreading!** - [Code Link](https://github.com/swha0105/Private/blob/master/Research/Filaments/label_spreading_v2.py) 
+4. **MATLAB을 통한 후처리 및 DFS를 통한 Filament 개별화** -> Skeleton 코드, DFS 코드
+식별된 Filament를 하나씩 개별화화 하기 위해 MATLAB의 `3D Volumetric Image Processing`을 이용해 **Skeletonized**를 하였다.
+<br/>
+![Skeleton example](_pics/Skeletonization.png)
+<br/>
+Skeletonized된 데이터를 이용하여 Python의 모듈 `Networkx`을 이용해 **Graph** 화 하고 **DFS** 개념을 활용해 Cluster 중심에서 부터 Filament가 끝나는 지점까지 길찾기를 하여 필라멘트 개별화를 하였다.
 
-- Result
 
-![Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/Screenshot_from_2020-09-16_14-30-10.png](Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/Screenshot_from_2020-09-16_14-30-10.png)
+<br/>
+<br/>
 
-Fig 5. Density around cluster (Left), Result of Label Spreading (Right)
-
-> Label Spreading한 결과, 각각의 Filament들이 잘 segment된 것으로 보여진다. (총 샘플 78개 확인), 평가할 Metric이 없어, Filament의 물리적 특성을 통계적으로 분석하여 판단 (아래 Result에 서술)
-
-</br>
-
-## **Deep Learning Approach:** 
-3D-Unet을 이용한 Segmentation 시도
-- Method
-    1. **Label Generation:**
-    Label Spreading에서 생성된 Label들 중에, 후 처리가 필요한 Filament segment에 대해 연결 한 후 Label 생성. (Fig. 6) - [Code Link](https://github.com/swha0105/Private/blob/master/Research/Filaments/matlab/spreding_to_post.m)
-
-        ![Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/Screenshot_from_2020-09-16_14-39-31.png](Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/Screenshot_from_2020-09-16_14-39-31.png)
-
-        Fig 6. Label from Label spreading (left), Label after post processing (Right(
-
-    2. **Image processing & Augmentation:**
-    number of image: ****1280 |  augmentation: X 8 (x,y,z flipped) 
-        ⇒ Total number of image: 10240
-    For training: 8000, For Validation: 2240
-    ****
-    3. Do 3D-Unet! - [Code link1](https://github.com/swha0105/Private/blob/master/Research/Filaments/models/unet_models.py)  , [Code link2](https://github.com/swha0105/Private/blob/master/Research/Filaments/models/model_run_val.py)
-
-- Result
-
-    ![Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/Untitled%202.png](Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/Untitled%202.png)
-
-    Fig 7. Dice Coefficient for training, Validation.
-
-    > Voxel 단위로 segmentation 하는 3D-unet은 연속적인 물체를 segmentation하는데 한계가 있었다. Validation coefficient가 data가 늘어남에도 불구하고 더 향상되지 않았고, segmented된 data들도 연속적이지 않은 segmentation이 많았었다. 
-
-        💠 3D-unet은 본 연구 프로젝트에 맞지 않는것으로 판단.
-            Label Spreading에서 나온 data를 사용하기로 결정
-
-</br>
-
-## **Post Processing:** Matlab을 이용한 Volumetric data 처리
-- Method:
-    1. **Skeletonization:**
-    Filament들을 개별로 식별하기 위해 Label Spreading 에서 계산된 Filament들을 Skeletonization을 한다 - [Code Link](https://github.com/swha0105/Private/blob/master/Research/Filaments/matlab/skeleton.m) (Matlab)
-
-        ![Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/_2020-09-16_15-23-17.png](Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/_2020-09-16_15-23-17.png)
-
-        Fig 8. Example of Skeletonized 
-
-    2. **Select proper direction on branch point:**
-
-        Galaxy of Cluster의 중심에서 출발하여 하나의 Galaxy of Filament끝에 도달하기 까지 수많은 Branch Point들이 존재 하였다. Galaxy of Filament 하나에 대해 여러가지 Voxel 집합으로 정의 되면 안되기에 이 중 가장 적절한 길찾기를 통해 Galaxy of Filament를 정의 하여야 했다.
-
-        Branch Point에서 중심에서 Endpoint까지 가는 모든 경우의수를 계산 한뒤, branch의 각도와 xray값을 고려하여 가장 높은 점수를 가지는 경우의수를 proper direction이라 정의한다. - [Code Link](https://github.com/swha0105/Private/blob/master/Research/Filaments/prefer_direction.py)
-
-        이와 같은 정의는 관측 논문들을 참조 하였으며 (Ref 5) 관측 결과에서 Galaxy of Filament를 정의할때, 원래의 진행방향을 유지한 채, 가장 밝은 구간으로 정의하는 방법을 사용하였기에 이와같은 방법을 수치와 하여 Proper direction을 정의하고 사용하였다.
-
-        ![Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/Untitled%203.png](Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/Untitled%203.png)
-
-        Fig 9. Schematic of choosing proper direction
-</br>
+***
 
 ## **Result**
 
-### 총 40개정도의 cluster에서 segmentation된 105개의 Filament에 대한 물리량들을 구해보았다.
+### 총 40개정도의 cluster에서 segmentation된 105개의 Filament에 대한 물리량들을 구해보았다.  
 
-> 기본적으로, Filament가 잘 segmentation 되었는지 확인하기 위해 구해 볼수 있는 **Linear density**를 구해보았다. 기존 논문과 (ref. 2) 오더 하나 (factor of 10) 정도의 차이를 보았지만, Filament의 굵기나 시뮬레이션 배경 환경을 고려해보았을때 충분히 **reliable한 결과**라고 생각된다.
+### **1. Linear density**
+먼저, Filament가 잘 segmentation 되었는지 확인하기 위해 구해 볼수 있는 **Linear density**를 구해보았다. 기존 논문들과 10배 가량 차이를 보았지만, 이는 시뮬레이션 환경에서 `암흑물질`을 고려 여부의 차이로 나타나는 것으로 이를 보정하면 충분히 **reliable한 결과**라고 판단 하였다.
+<br/>
+![Linear Density](_pics/linear_density.png)
+왼쪽은 [기존 논문](https://arxiv.org/abs/1401.7866)의 Linear density이고 오른쪽은 우리가 계산한 Filamnet Linear density의 평균을 나타낸다.  
 
-![Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/Untitled%204.png](Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/Untitled%204.png)
+### **2. Curvature**
+Filament가 제대로 식별이 됐다고 판단이 되었으므로 우리의 목적인 **Curvature**를 계산해보기로 하였다. 
 
-Fig 10. Linear Density versus Length (Left: Linear density in Ref 6, Right: Linear Density in our data)
+3차원상에서 Curvature를 계산하는 수식은 아래와 같다.
+![Curvature](_pics/curvature_equation.png)
 
-또 다르게 구해 볼수 있는 물리량으론 Curvature가 있다. 기존 연구에서는 데이터 처리상의 한계로 Filament를 2Mpc/h 로 Smoothing을 해주어야 했기 때문에 Curvature가 0.5 이상인 Highly Curved Filament들을 식별하는데 한계가 있었다. 
+총 105개의 Filament의 Mean Curvature, Max Curvature를 구하였고 히스토그램으로 나타내었다.
 
-최근 관측 결과에서 우리은하가 속해있는 Virgo cluster에서 Curvature가 0.5 정도인 Highly Curved Filament가 발견되었기 때문에, 기존 연구에서 수행하지 못한 Curvature계산을 통해 이와 같은 Highly Curved Filament가 시뮬레이션 데이터 상 통계적으로 얼마정도의 시그마 값을 가지는지 확인을 하였다.
+![Curvature_statistics](_pics/curvature.png)
 
-![Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/curvature_equation.png](Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/curvature_equation.png)
+위의 데이터를 분석하면 우리가 찾던 Highly curved filament (Curvature > 0.4) 가 존재한다. 하지만 105개중 2개 존재함으로 통계적으로 유효하기 위해 좀 더 많은 데이터가 필요할것으로 보인다.
 
-Eq 2. Curvature equation in 3-dimension
 
-> Curvature를 구하는 Eq 2. 를 사용하기 위해, Filament들을 각각 3차 오더로 Fitting하고 Curvature를 구했다. - [Code Link](https://github.com/swha0105/Private/blob/master/Research/Filaments/curvature_v2.py)
-Fig 10. Filament 하나에 대한 가장 큰 curvature와 (Left), Filament 하나의 모든 voxel에 대한 curvature에 대한 평균값이다 (Right).
-앞서 Highly curved를 가진 Leo filament가 0.5정도의 값을 가진다고 했기에, 우리 데이터에서 추출한 filament 100개중 하나정도의 Highly curved를 가진다는걸 알 수 있다. 이에 Highly curved로 판별된 Filament가 과연 관측이 가능할 정도의 크기인지, Reliable한 Filament인지 알아 볼 필요가 있었다.
+어떤 필라멘트들이 Highly curvature를 가지는지 알아보기 위해 Length와 함께 데이터를 구성해보았다.
 
-![Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/curvature.png](Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/curvature.png)
+![Curvature_statistics](_pics/curvature_length.png)
 
-Fig 11. Curvature statistics
+15~20 Mpc/h 의 길이를 가지는 Filament들이 Highly curvature를 가지는 것으로 보였다. 하지만 앞서 언급 했듯이 통계적으로 분석하기 위해 좀 더 많은 데이터가 필요할것으로 보인다.
 
-> 따라서, Length와 Curvature에 대한 관계도를 보아, Curvature와 Length에 대한 상관관계를 알아볼 필요가 있었다. Fig. 12에서 보이듯이,  0.5이상 curved를 가지는 filament는 length 가 15 Mpc/h 에서 형성이 되는걸 알 수 있다. 위와 같은 크기는 관측이 되기 어려우며 길이가 짧으므로 **Filament라고 정의 내리기가 쉽지 않을 것으로 생각이 된다.**
+<br/>
+<br/>
 
-![Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/curvature_length.png](Detail%20for%20CHEA%20Works%20d8ace5b9c5554a5abf4970607207713c/curvature_length.png)
-
-Fig 12. Curvature versus Length
-
-**따라서, Highly curved filament가 실제로 존재하는가를 판단하기 위해선 좀 더 많은 데이터가 필요로 할 것으로 판단이 된다.**
-
-</br>
-
-### Summary
+## **Summary**
 
 위와 같은 일련의 과정으로 Machine Learning을 도입하여 Large Scale Structure of the universe에서의 Galaxy of Filament를 segmentation 및 Identification하는 작업을 하였다.
 
@@ -207,7 +186,10 @@ Fig 12. Curvature versus Length
 
 Code works은 끝났으니, 데이터가 생성되는대로 좀 더 테스트를 할 예정이다.
 
-reference
+<br/>
+<br/>
+
+### reference
 [1] [https://aip.scitation.org/doi/pdf/10.1063/1.3382336](https://aip.scitation.org/doi/pdf/10.1063/1.3382336)
 
 [2] [https://arxiv.org/abs/1209.2043](https://arxiv.org/abs/1209.2043)

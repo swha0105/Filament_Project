@@ -4,10 +4,11 @@ import matplotlib.pyplot as plt
 import copy 
 from numpy.fft import rfftn,irfftn,irfft,ifft,fftn,ifftn
 import time
-from numba import jit,njit, float32,complex64,int32
-from numba.np.linalg import eigvals_impl
 import pandas as pd
 import os 
+from numba import jit,njit, float32,complex64,int32
+#from numba.np.linalg import eigvals_impl
+
 
 
 @jit(float32(float32))
@@ -208,59 +209,108 @@ def gpu_wall_signature(eigenvalues):
     return wall_signature
 
 
+#%%
+# test for window 
+
+box_length = '200Mpc'
+cluster_length = 40
+#box_list = ['1']
+
+if box_length == '200Mpc':  
+    cluster_grid = 400   #40Mpc, Smoothing: 6, 0.586 Grid/Mpc  
+if box_length == '300Mpc':
+    cluster_grid = 300   #45Mpc, Smoothing: 4, 0.586 Grid/Mpc   
+if box_length == '100Mpc':
+    cluster_grid = 900   #45Mpc, Smootinhg: 12, 0.586 Grid/Mpc   
+
+ref_path = 'C:\\Users\\hsw63\\OneDrive\\바탕 화면\\git\\Filament_Project\\'
+cluster_path = ref_path + '\\pyramid\\'
+save_path = ref_path + '\\save\\signature\\'
+
+
+for cluster_num in np.sort(np.array(os.listdir(cluster_path))):
+
+    print(cluster_num)
+
+    t = np.load(cluster_path + cluster_num)
+    hessian_mat = hessian_matrix(t)
+    eigenvalues = gpu_eig(hessian_mat)
+
+    filament_signature = gpu_filament_signature(eigenvalues)
+    wall_signature = gpu_wall_signature(eigenvalues)
+    cluster_signature = gpu_cluster_signature(eigenvalues)
+
+
+    # if not os.path.isdir(save_path + 'filament\\'):
+    #     os.makedirs(save_path + 'filament\\')
+    # if not os.path.isdir(save_path + 'wall/'):
+    #     os.makedirs(save_path + 'wall/')
+    # if not os.path.isdir(save_path + 'cluster/'):
+    #     os.makedirs(save_path + 'cluster/')
+    # # if not os.path.isdir(save_path + 'dens/'):
+    #     os.makedirs(save_path + 'dens/')
+
+    np.save(save_path + 'filament\\' +  str(cluster_num),filament_signature)    
+    np.save(save_path + 'wall\\' + str(cluster_num),wall_signature)    
+    np.save(save_path + 'cluster\\' + str(cluster_num),cluster_signature)    
+    #np.save(save_path + 'dens/' + str(cluster_num),dens_smoothing)   
+
 
 #%%
-box_length = '300Mpc'
+box_length = '200Mpc'
 cluster_length = 45
-box_list = ['1']
+#box_list = ['1']
 
 if box_length == '200Mpc':  
     cluster_grid = 450   #45Mpc, Smoothing: 6, 0.586 Grid/Mpc  
-    smoothing_scale = 6
+    # cluster_grid = 400   #40Mpc, Smoothing: 6, 0.586 Grid/Mpc  
+
 if box_length == '300Mpc':
     cluster_grid = 300   #45Mpc, Smoothing: 4, 0.586 Grid/Mpc   
-    smoothing_scale = 4
+
 if box_length == '100Mpc':
     cluster_grid = 900   #45Mpc, Smootinhg: 12, 0.586 Grid/Mpc   
-    smoothing_scale = 12
-#smoothing_scale_list = [0.5,0.7,1.0,1.4,2.0,2.8,4.0]
-
-for box_num in box_list:
-
-    ref_path = '/storage/filament/works_v7/' + box_length + '_' + box_num + '/'
-    #cluster_path = ref_path +   'cluster_box/xray/'
-    cluster_path = ref_path +   'pyramid/gaussian/2/'
-    save_path = ref_path + 'signature/'
-
-    for cluster_num in np.sort(np.array(os.listdir(cluster_path))):
-
-        print(cluster_num)
-
-        t = np.load(cluster_path + cluster_num)
-
-        #dens_smoothing = smoothing_real_space(t,smoothing_scale)
-        hessian_mat = hessian_matrix(t)
-        eigenvalues = gpu_eig(hessian_mat)
-
-        filament_signature = gpu_filament_signature(eigenvalues)
-        wall_signature = gpu_wall_signature(eigenvalues)
-        cluster_signature = gpu_cluster_signature(eigenvalues)
 
 
-        if not os.path.isdir(save_path + 'filament/'):
-            os.makedirs(save_path + 'filament/')
-        if not os.path.isdir(save_path + 'wall/'):
-            os.makedirs(save_path + 'wall/')
-        if not os.path.isdir(save_path + 'cluster/'):
-            os.makedirs(save_path + 'cluster/')
-        # if not os.path.isdir(save_path + 'dens/'):
-        #     os.makedirs(save_path + 'dens/')
+#for box_num in box_list:
 
-        np.save(save_path + 'filament/' +  str(cluster_num),filament_signature)    
-        np.save(save_path + 'wall/' + str(cluster_num),wall_signature)    
-        np.save(save_path + 'cluster/' + str(cluster_num),cluster_signature)    
-        #np.save(save_path + 'dens/' + str(cluster_num),dens_smoothing)   
-        
+    # ref_path = '/storage/filament/works_v7/' + box_length + '_' + box_num + '/'
+    # cluster_path = ref_path +   'pyramid/gaussian/2/'
+    # save_path = ref_path + 'signature/'
+
+ref_path = 'data/'
+cluster_path = ref_path +   'pyramid/gaussian/2/'
+save_path = ref_path + 'signature/'
+
+
+for cluster_num in np.sort(np.array(os.listdir(cluster_path))):
+
+    print(cluster_num)
+
+    t = np.load(cluster_path + cluster_num)
+
+    hessian_mat = hessian_matrix(t)
+    eigenvalues = gpu_eig(hessian_mat)
+
+    filament_signature = gpu_filament_signature(eigenvalues)
+    wall_signature = gpu_wall_signature(eigenvalues)
+    cluster_signature = gpu_cluster_signature(eigenvalues)
+
+
+    if not os.path.isdir(save_path + 'filament/'):
+        os.makedirs(save_path + 'filament/')
+    if not os.path.isdir(save_path + 'wall/'):
+        os.makedirs(save_path + 'wall/')
+    if not os.path.isdir(save_path + 'cluster/'):
+        os.makedirs(save_path + 'cluster/')
+    # if not os.path.isdir(save_path + 'dens/'):
+    #     os.makedirs(save_path + 'dens/')
+
+    np.save(save_path + 'filament/' +  str(cluster_num),filament_signature)    
+    np.save(save_path + 'wall/' + str(cluster_num),wall_signature)    
+    np.save(save_path + 'cluster/' + str(cluster_num),cluster_signature)    
+    #np.save(save_path + 'dens/' + str(cluster_num),dens_smoothing)   
+    
 
 #%%
 smoothing_array = np.zeros([72,72,72],dtype=np.float32)

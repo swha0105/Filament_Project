@@ -110,7 +110,6 @@ def get_xray(dens,temp,box_length):
 
 
 
-
 #%%
 box_length = '300Mpc'
 cluster_length = 45

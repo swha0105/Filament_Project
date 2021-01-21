@@ -37,6 +37,41 @@ def upsampling(input):
     return output
 
 # %%
+# for working test in window
+box_length = '300Mpc'
+cluster_length = 45
+box_num = '1'
+res = 2048
+
+
+for cluster_num in np.sort(np.array(os.listdir(os.getcwd() + '\\data'))):
+    cluster_num = int(cluster_num[0])
+
+    I1 = np.load(os.getcwd() + '\\data\\' + str(cluster_num) + '.npy')
+    I2 = gaussian_filter(I1,sigma=1)
+    I2 = subsampling(I2)
+    I1_prime = upsampling(I2)
+    I1_prime = gaussian_filter(I1_prime,sigma=1)
+    L1 = I1-I1_prime
+
+    #np.save(os.getcwd() + 'pyramid/' + str(cluster_num), I2)
+    #np.save(ref_path + 'pyramid/' + str(cluster_num), L1)
+
+    I3 = gaussian_filter(I2,sigma=1)
+    I3 = subsampling(I3)
+    I2_prime = upsampling(I3)
+    I2_prime = gaussian_filter(I2_prime,sigma=1)
+    L2 = I2-I2_prime
+    
+    np.save(os.getcwd() + '\\pyramid\\' + str(cluster_num), I3)
+    #np.save(ref_path + 'pyramid/xray/laplacian/2/' + str(cluster_num), L1)
+
+
+
+
+#%%
+
+
 box_length = '300Mpc'
 cluster_length = 45
 box_num = '1'
